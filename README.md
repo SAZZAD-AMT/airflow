@@ -11,3 +11,9 @@ airflow webserver
 
 # Check Airflow can see it
 airflow dags list
+
+
+export AIRFLOW__CORE__DAGS_FOLDER="/workspaces/airflow/airflow_dag/dags"
+
+
+rm -rf /workspaces/airflow/airflow_dag/dags/__pycache__/
