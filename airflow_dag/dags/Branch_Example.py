@@ -1,8 +1,8 @@
 from airflow import DAG
-from airflow.operators.empty import DummyOperator  # Updated import for Airflow 3.0
+from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator, BranchPythonOperator
-from airflow.utils.dates import days_ago
 from airflow.utils.trigger_rule import TriggerRule
+from datetime import datetime, timedelta  # Modern datetime import
 
 def notification_email(**kwargs):
     if kwargs['ti'].xcom_pull(task_ids='check_data'):
@@ -15,36 +15,37 @@ def always_true():
 
 default_args = {
     'owner': 'airflow',
-    'start_date': days_ago(1),
+    'start_date': datetime(2025, 5, 8),  # Explicit start date
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
 }
 
-dag = DAG(
+with DAG(
     'branch_example',
     default_args=default_args,
-    schedule_interval=None,
-    catchup=False  # Recommended to add
-)
+    schedule=None,
+    start_date=datetime(2025, 5, 8),  # Explicit start date
+    catchup=False,
+    tags=['example'],
+) as dag:
 
-start_task = DummyOperator(task_id='start_task', dag=dag)
+    start_task = EmptyOperator(task_id='start_task')
 
-check_data = PythonOperator(
-    task_id='check_data',
-    python_callable=always_true,
-    dag=dag,
-)
+    check_data = PythonOperator(
+        task_id='check_data',
+        python_callable=always_true,
+    )
 
-branch_task = BranchPythonOperator(
-    task_id='branch_task',
-    python_callable=notification_email,
-    dag=dag,
-)
+    branch_task = BranchPythonOperator(
+        task_id='branch_task',
+        python_callable=notification_email,
+    )
 
-dummy_task_true = DummyOperator(task_id='dummy_task_true', dag=dag)
-dummy_task = DummyOperator(task_id='dummy_task', dag=dag)
-dummy_task_final = DummyOperator(
-    task_id='dummy_task_final',
-    trigger_rule=TriggerRule.ONE_SUCCESS,
-    dag=dag
-)
+    dummy_task_true = EmptyOperator(task_id='dummy_task_true')
+    dummy_task = EmptyOperator(task_id='dummy_task')
+    dummy_task_final = EmptyOperator(
+        task_id='dummy_task_final',
+        trigger_rule=TriggerRule.ONE_SUCCESS,
+    )
 
-start_task >> check_data >> branch_task >> [dummy_task_true, dummy_task] >> dummy_task_final
+    start_task >> check_data >> branch_task >> [dummy_task_true, dummy_task] >> dummy_task_final

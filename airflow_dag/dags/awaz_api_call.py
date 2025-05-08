@@ -2,12 +2,10 @@ import os
 import pendulum
 import requests
 from datetime import datetime, timedelta
-
 from airflow import DAG
 from airflow.decorators import dag, task
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
-from airflow.operators.empty import EmptyOperator
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.providers.oracle.hooks.oracle import OracleHook
 from kubernetes.client import models as k8s
@@ -130,7 +128,6 @@ endDate = endDate.strftime("%Y-%m-%d")      # Format: YYYY-MM-DD
 # function call
 login_to_api_task = PythonOperator(
         task_id="login_to_api_task",
-        provide_context=True,
         python_callable=login_to_api,
         dag=dag,
         op_kwargs={
@@ -171,7 +168,6 @@ login_to_api_task = PythonOperator(
     
 fetch_removed_products_task = PythonOperator(
         task_id="fetch_removed_products_task",
-        provide_context=True,
         python_callable=fetch_removed_products, 
         op_kwargs={
             "startDate": startDate,
@@ -212,7 +208,6 @@ fetch_removed_products_task = PythonOperator(
 
 fetch_removed_low_size_image_products_task = PythonOperator(
         task_id="fetch_removed_low_size_image_products_task",
-        provide_context=True,
         python_callable=fetch_removed_low_size_image_products, 
         op_kwargs={
             "startDate": startDate,
