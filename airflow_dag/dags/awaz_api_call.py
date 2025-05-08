@@ -1,28 +1,16 @@
-import datetime
-import json
 import os
-import sys
-import re
-from airflow import DAG
-from airflow.operators.python import PythonOperator
-from datetime import datetime, timedelta
-import requests
-from airflow import DAG
-from airflow.models import Variable
-from airflow.providers.amazon.aws.hooks.s3 import S3Hook
-from airflow.operators.bash_operator import BashOperator
-from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.python_operator import PythonOperator
-from airflow.providers.oracle.operators.oracle import OracleOperator
-from airflow.providers.oracle.hooks.oracle  import OracleHook
-from kubernetes.client import models as k8s
-from airflow.settings import AIRFLOW_HOME
-from airflow.utils.trigger_rule import TriggerRule
-import pandas as pd
-from airflow.utils.dates import days_ago
-from smart_open import open
 import pendulum
-from datetime import timedelta
+import requests
+from datetime import datetime, timedelta
+
+from airflow import DAG
+from airflow.decorators import dag, task
+from airflow.models import Variable
+from airflow.operators.python import PythonOperator
+from airflow.operators.empty import EmptyOperator
+from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+from airflow.providers.oracle.hooks.oracle import OracleHook
+from kubernetes.client import models as k8s
 
 
 # Define default arguments
@@ -40,7 +28,7 @@ now = pendulum.now("Asia/Dhaka")
 
 dag = DAG(
     dag_id='amarawaz_api_call',
-    schedule_interval='0 7 * * *',  
+    schedule='0 7 * * *',  
     start_date=datetime(2024, 1, 2, tzinfo=local_tz),  
     catchup=False,
     )
