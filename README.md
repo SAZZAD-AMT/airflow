@@ -1,4 +1,5 @@
-airflow standalone start airflow
+# First Start Codespace to github...
+    airflow standalone start airflow
 
 
 pkill -9 -f airflow   kill all post
@@ -12,8 +13,11 @@ airflow webserver
 # Check Airflow can see it
 airflow dags list
 
-
+# Dag Path Fix
 export AIRFLOW__CORE__DAGS_FOLDER="/workspaces/airflow/airflow_dag/dags"
 
-
+# remove Unnecassary cache filr
 rm -rf /workspaces/airflow/airflow_dag/dags/__pycache__/
+
+
+
