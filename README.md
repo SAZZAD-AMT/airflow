@@ -75,3 +75,6 @@ docker exec -it spark ls /opt/bitnami/spark/jars/
 
 python3 /workspaces/airflow/airflow_dag/dags/upload_employee.py
 @SAZZAD-AMT ➜ /workspaces/airflow (main) $ pyspark
+
+
+find / -name "java*" 2>/dev/null
