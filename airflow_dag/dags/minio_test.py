@@ -8,13 +8,13 @@ def upload_to_minio():
     hook.load_string(
         string_data="Hello from Airflow!",
         key='test_file.txt',
-        bucket_name='airflow'
+        bucket_name='test'
     )
 
 with DAG(
     'minio_example',
     start_date=datetime(2025, 1, 1),
-    schedule_interval=None,
+    schedule=None,
     catchup=False
 ) as dag:
     
