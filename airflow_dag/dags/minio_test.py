@@ -6,7 +6,7 @@ from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 def upload_to_minio():
     hook = S3Hook(aws_conn_id='minio_default')
     hook.load_string(
-        string_data="Hello from Airflow!",
+        string_data="Hello from Airflow! im here to test minio",
         key='test_file.txt',
         bucket_name='test'
     )

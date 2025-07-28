@@ -27,6 +27,7 @@ airflow db upgrade
 
 
 # Minio Hosting Guide
+docker start minio
 
 mkdir -p ~/minio_data
 
@@ -62,5 +63,15 @@ export AIRFLOW__LOGGING__ENCRYPT_S3_LOGS=False
 export base_log_folder=/workspaces/airflow/airflow_dag/logs
 
 
+# docker
 
 
+docker ps
+
+docker exec -it spark ls /opt/bitnami/spark/jars/
+
+
+
+
+python3 /workspaces/airflow/airflow_dag/dags/upload_employee.py
+@SAZZAD-AMT ➜ /workspaces/airflow (main) $ pyspark
