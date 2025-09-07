@@ -1,4 +1,5 @@
-airflow standalone start airflow
+airflow standalone 
+start airflow
 
 
 pkill -9 -f airflow   
@@ -60,7 +61,7 @@ export AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER=s3://airflow-log/
 export AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID=minio_default
 export AIRFLOW__LOGGING__ENCRYPT_S3_LOGS=False
 
-export base_log_folder=/workspaces/airflow/airflow_dag/logs
+export base_log_folder = /workspaces/airflow/airflow_dag/logs
 
 
 # docker
