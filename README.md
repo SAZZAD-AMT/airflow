@@ -43,8 +43,8 @@ docker run -d --name minio \
   {
   "aws_access_key_id": "minioadmin",
   "aws_secret_access_key": "minioadmin",
-  "host": "http://localhost:9000",
-  "endpoint_url": "http://localhost:9000"
+  "host": "http://localhost:9001",
+  "endpoint_url": "http://localhost:9001"
 }
 
 airflow connections delete minio_default
